@@ -78,12 +78,14 @@ export function MaterialsSection() {
               src={material.backgroundImage || "/placeholder.svg"}
               alt={`${material.name} background`}
               fill
-              className="object-cover"
+              className="object-cover brightness-[.55] blur-[1px]"
               priority
             />
           </motion.div>
         ))}
-        <div className="absolute inset-0 bg-black/20" />
+        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-black/80 to-transparent pointer-events-none" />
+        <div className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-black/80 to-transparent pointer-events-none" />
       </div>
 
       <div className="absolute top-[120px] left-0 right-0 z-10">
@@ -162,10 +164,8 @@ export function MaterialsSection() {
                 <motion.button
                   key={material.id}
                   className={cn(
-                    "px-6 py-3 rounded-full font-medium transition-all duration-300 backdrop-blur-md",
-                    activeMaterial === material.id
-                      ? "bg-white text-neutral-900"
-                      : "bg-white/20 text-white hover:bg-white/30",
+                    "px-6 py-3 rounded-full font-medium transition-all duration-300 backdrop-blur-md bg-white text-black hover:bg-neutral-100 active:bg-neutral-200/80",
+                    activeMaterial === material.id ? "shadow-md" : "opacity-90"
                   )}
                   onClick={() => setActiveMaterial(material.id)}
                   whileHover={{ scale: 1.05 }}

@@ -87,7 +87,7 @@ export function ProductCard({ product, onQuickLook }: ProductCardProps) {
           
           {/* Service Description */}
           <motion.p 
-            className="text-sm text-white/90 leading-relaxed max-w-sm"
+            className="text-sm text-white/90 leading-relaxed max-w-sm md:block line-clamp-2 md:line-clamp-none"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}

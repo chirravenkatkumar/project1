@@ -3,7 +3,7 @@
 import type React from "react"
 import { useState } from "react"
 import { motion } from "framer-motion"
-import { Check, Mail, User, Building, Settings } from "lucide-react"
+import { Check, Mail, User, Phone, Settings } from "lucide-react"
 import { Reveal } from "./reveal"
 import { BlurPanel } from "./blur-panel"
 import { AnimatedText } from "./animated-text"
@@ -12,24 +12,54 @@ export function NewsletterSection() {
   const [formData, setFormData] = useState({
     email: "",
     name: "",
-    company: "",
+    phone: "",
     service: "",
   })
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [isValid, setIsValid] = useState(true)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
 
   const validateEmail = (email: string) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     return re.test(email)
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (validateEmail(formData.email) && formData.name && formData.company && formData.service) {
-      setIsSubmitted(true)
-      setIsValid(true)
-    } else {
+    setSubmitError(null)
+    if (!(validateEmail(formData.email) && formData.name && formData.phone && formData.service)) {
       setIsValid(false)
+      return
+    }
+
+    try {
+      setIsSubmitting(true)
+      setIsValid(true)
+
+      const response = await fetch("/api/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          timestamp: new Date().toISOString(),
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          service: formData.service,
+        }),
+      })
+
+      if (!response.ok) throw new Error("Submit failed")
+      const data = await response.json().catch(() => ({} as any))
+      if (data?.status === "ok" || response.ok) {
+        setIsSubmitted(true)
+      } else {
+        throw new Error("Unexpected response")
+      }
+    } catch (err) {
+      setSubmitError("We couldn't submit your inquiry. Please try again.")
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
@@ -43,13 +73,13 @@ export function NewsletterSection() {
       <div className="container-custom">
         <Reveal>
           <div className="max-w-2xl mx-auto">
-            <BlurPanel className="p-8 lg:p-12 bg-white/40 backdrop-blur-md grain-texture">
+            <BlurPanel className="p-8 lg:p-12 bg-transparent backdrop-blur-0">
               <div className="text-center mb-8">
                 <h2 className="text-3xl lg:text-4xl font-bold text-black mb-4" style={{ color: "#000000" }}>
-                  <span style={{ color: "#000000" }}>
+                  <span style={{ color: "white" }}>
                     <AnimatedText text="Let's work " delay={0.2} />
                   </span>
-                  <span className="italic font-light text-black" style={{ color: "#1f2937" }}>
+                  <span className="italic font-light text-black" style={{ color: "white" }}>
                     <AnimatedText text="together." delay={0.5} />
                   </span>
                 </h2>
@@ -69,8 +99,8 @@ export function NewsletterSection() {
                       value={formData.name}
                       onChange={(e) => handleInputChange("name", e.target.value)}
                       placeholder="Your full name"
-                      className={`w-full pl-12 pr-4 py-4 bg-white/60 backdrop-blur-sm border rounded-full placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:border-transparent transition-all duration-200 text-slate-600 ${
-                        !isValid ? "border-red-300 focus:ring-red-500" : "border-neutral-200"
+                      className={`w-full pl-12 pr-4 py-4 bg-transparent border-1 rounded-2xl placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white focus:border-white transition-all duration-200 text-white ${
+                        !isValid ? "border-red-400 focus:ring-red-500" : "border-white/70"
                       }`}
                     />
                   </div>
@@ -84,23 +114,26 @@ export function NewsletterSection() {
                       value={formData.email}
                       onChange={(e) => handleInputChange("email", e.target.value)}
                       placeholder="Your email address"
-                      className={`w-full pl-12 pr-4 py-4 bg-white/60 backdrop-blur-sm border rounded-full placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:border-transparent transition-all duration-200 text-slate-500 ${
-                        !isValid ? "border-red-300 focus:ring-red-500" : "border-neutral-200"
+                      className={`w-full pl-12 pr-4 py-4 bg-transparent border-1 rounded-2xl placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white focus:border-white transition-all duration-200 text-white ${
+                        !isValid ? "border-red-400 focus:ring-red-500" : "border-white/70"
                       }`}
                     />
                   </div>
 
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                      <Building size={20} className="text-neutral-400" />
+                      <Phone size={20} className="text-neutral-400" />
                     </div>
                     <input
-                      type="text"
-                      value={formData.company}
-                      onChange={(e) => handleInputChange("company", e.target.value)}
-                      placeholder="Company name"
-                      className={`w-full pl-12 pr-4 py-4 bg-white/60 backdrop-blur-sm border rounded-full placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:border-transparent transition-all duration-200 text-slate-500 ${
-                        !isValid ? "border-red-300 focus:ring-red-500" : "border-neutral-200"
+                      type="tel"
+                      inputMode="tel"
+                      autoComplete="tel"
+                      pattern="[+()\-\s\d]{7,20}"
+                      value={formData.phone}
+                      onChange={(e) => handleInputChange("phone", e.target.value)}
+                      placeholder="Your contact number"
+                      className={`w-full pl-12 pr-4 py-4 bg-transparent border-1 rounded-2xl placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white focus:border-white transition-all duration-200 text-white ${
+                        !isValid ? "border-red-400 focus:ring-red-500" : "border-white/70"
                       }`}
                     />
                   </div>
@@ -114,8 +147,8 @@ export function NewsletterSection() {
                       onChange={(e) => handleInputChange("service", e.target.value)}
                       placeholder="What service are you looking for? (e.g., Custom furniture design, Interior consultation, etc.)"
                       rows={4}
-                      className={`w-full pl-12 pr-4 py-4 bg-white/60 backdrop-blur-sm border rounded-2xl placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:border-transparent transition-all duration-200 resize-none text-slate-500 ${
-                        !isValid ? "border-red-300 focus:ring-red-500" : "border-neutral-200"
+                      className={`w-full pl-12 pr-4 py-4 bg-transparent border-1 rounded-2xl placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white focus:border-white transition-all duration-200 resize-none text-white ${
+                        !isValid ? "border-red-400 focus:ring-red-500" : "border-white/70"
                       }`}
                     />
                   </div>
@@ -131,13 +164,25 @@ export function NewsletterSection() {
                     </motion.p>
                   )}
 
+                  {submitError && (
+                    <motion.p
+                      className="text-sm text-red-600 text-center"
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      {submitError}
+                    </motion.p>
+                  )}
+
                   <motion.button
                     type="submit"
-                    className="w-full text-white py-4 rounded-full font-medium hover:bg-neutral-800 transition-all duration-200 bg-black"
+                    disabled={isSubmitting}
+                    className="w-full text-black py-4 rounded-full font-medium transition-all duration-200 bg-white hover:bg-neutral-200 disabled:opacity-60 disabled:cursor-not-allowed"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    Submit Inquiry
+                    {isSubmitting ? "Submitting..." : "Submit Inquiry"}
                   </motion.button>
                 </form>
               ) : (

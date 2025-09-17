@@ -59,10 +59,22 @@ export function FeaturedProducts() {
 
   return (
     <section
-      className="py-20 lg:py-32 bg-black text-white"
+      className="py-20 lg:py-32 text-white relative overflow-hidden"
       id="featured-products"
-      style={{ backgroundColor: "#000000" }}
     >
+      {/* Blurry background image */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: "url('/26580.jpg')",
+          filter: "blur(8px)",
+          transform: "scale(1.1)"
+        }}
+      />
+      {/* Dark overlay for better text readability */}
+      <div className="absolute inset-0 bg-black/60" />
+      {/* Content */}
+      <div className="relative z-10">
       <div className="container-custom">
         <Reveal>
           <div className="text-center mb-20">
@@ -153,6 +165,7 @@ export function FeaturedProducts() {
             ))}
           </motion.div>
         </div>
+      </div>
       </div>
 
       <QuickLookModal product={selectedProduct} isOpen={isModalOpen} onClose={closeModal} />

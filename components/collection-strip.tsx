@@ -9,10 +9,10 @@ import { Reveal } from "./reveal"
 const collections = [
   {
     id: "modern-seating",
-    name: "MODERN SEATING",
-    image: "/modern-armchair-pillows.png",
+    name: "KFC Ad Video",
+    image: "/KFCAD.jpg",
     count: "8 pieces",
-    description: "Sleek lines meet ultimate comfort in our contemporary seating collection",
+    description: "From idea to ad in moments with AI-powered magic for KFC campaigns.",
   },
   {
     id: "modular-design",
@@ -86,6 +86,7 @@ export function CollectionStrip() {
   const [maxDrag, setMaxDrag] = useState(0)
   const [currentDragX, setCurrentDragX] = useState(0)
   const [activeIndex, setActiveIndex] = useState(0)
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(0)
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -118,17 +119,19 @@ export function CollectionStrip() {
   }
 
   const scrollLeft = () => {
-    const currentX = dragX.get()
-    const newX = Math.min(0, currentX + 704)
-    dragX.set(newX)
-    setCurrentDragX(newX)
+    const n = collections.length
+    const current = typeof expandedIndex === "number" ? expandedIndex : activeIndex
+    const next = (current - 1 + n) % n
+    setExpandedIndex(next)
+    scrollToCollection(next)
   }
 
   const scrollRight = () => {
-    const currentX = dragX.get()
-    const newX = Math.max(-maxDrag, currentX - 704)
-    dragX.set(newX)
-    setCurrentDragX(newX)
+    const n = collections.length
+    const current = typeof expandedIndex === "number" ? expandedIndex : activeIndex
+    const next = (current + 1) % n
+    setExpandedIndex(next)
+    scrollToCollection(next)
   }
 
   return (
@@ -136,8 +139,8 @@ export function CollectionStrip() {
       <div className="mb-12">
         <Reveal>
           <div className="container-custom text-center">
-            <h2 className="text-neutral-900 mb-4 text-6xl font-normal">What We Deliver Previously</h2>
-            <p className="text-lg text-neutral-600 max-w-2xl mx-auto">
+            <h2 className="text-white mb-4 text-6xl font-normal">What We Deliver Previously</h2>
+            <p className="text-lg text-neutral-300 max-w-2xl mx-auto">
               Explore our expertize works, where every project reflects innovation, precision, and our unique design philosophy.
             </p>
           </div>
@@ -147,16 +150,14 @@ export function CollectionStrip() {
       <div className="relative">
         <button
           onClick={scrollLeft}
-          disabled={currentDragX >= 0}
-          className="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full p-3 text-white hover:bg-white/20 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="absolute left-4 top-1/2 -translate-y-1/2 z-10 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full p-3 text-white hover:bg-white/20 transition-all duration-300"
         >
           <ChevronLeft className="w-6 h-6" />
         </button>
 
         <button
           onClick={scrollRight}
-          disabled={currentDragX <= -maxDrag}
-          className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full p-3 text-white hover:bg-white/20 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="absolute right-4 top-1/2 -translate-y-1/2 z-10 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full p-3 text-white hover:bg-white/20 transition-all duration-300"
         >
           <ChevronRight className="w-6 h-6" />
         </button>
@@ -172,55 +173,52 @@ export function CollectionStrip() {
             dragX.set(info.offset.x)
             setCurrentDragX(info.offset.x)
           }}
+          onDragEnd={() => {
+            const itemWidth = 352
+            const newIndex = Math.round(Math.abs(dragX.get()) / itemWidth)
+            const clamped = Math.min(Math.max(newIndex, 0), collections.length - 1)
+            setExpandedIndex(clamped)
+            scrollToCollection(clamped)
+          }}
         >
           {collections.map((collection, index) => (
             <motion.div
               key={collection.id}
-              className="flex-shrink-0 w-80 group cursor-pointer relative"
-              whileHover={{ scale: 1.02 }}
+              className={`flex-shrink-0 group cursor-pointer relative transition-all duration-300 ${
+                expandedIndex === index ? "w-[500px]" : "w-[320px]"
+              }`}
+              onClick={() => {
+                setExpandedIndex((prev) => (prev === index ? null : index))
+                scrollToCollection(index)
+              }}
+              whileHover={{ scale: expandedIndex === index ? 1 : 1.02 }}
               transition={{ duration: 0.3, ease: [0.21, 0.47, 0.32, 0.98] }}
             >
-              <div className="relative aspect-[4/5] rounded-2xl overflow-hidden mb-4">
-                <motion.div
-                  className="relative w-full h-full"
-                  whileHover={{ filter: "blur(1px)" }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <Image
-                    src={collection.image || "/placeholder.svg"}
-                    alt={collection.name}
-                    fill
-                    className="object-cover"
-                    sizes="320px"
-                  />
-                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-all duration-300" />
-                </motion.div>
+              <div className="relative h-[400px] rounded-2xl overflow-hidden mb-4 shadow-lg">
+                <Image
+                  src={collection.image || "/placeholder.svg"}
+                  alt={collection.name}
+                  fill
+                  className="object-cover"
+                  sizes="(min-width: 1024px) 500px, 320px"
+                />
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/90" />
 
-                <motion.div
-                  className="absolute inset-0 bg-violet-500/20 backdrop-blur-md border border-violet-400/30 rounded-2xl flex items-center justify-center p-6"
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileHover={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.3, ease: "easeOut" }}
-                >
-                  <div className="text-center text-white">
-                    <h4 className="text-xl font-semibold mb-3 text-violet-100">{collection.name}</h4>
-                    <p className="text-sm text-violet-200 leading-relaxed">{collection.description}</p>
-                    <div className="mt-4 px-3 py-1 bg-violet-400/20 rounded-full inline-block">
-                      <span className="text-xs text-violet-100">{collection.count}</span>
-                    </div>
+                {/* Collapsed title */}
+                <div className={`absolute left-0 right-0 bottom-0 z-10 px-6 pb-3 pt-4 text-white transition-all duration-300 ${
+                  expandedIndex === index ? "translate-y-0" : "translate-y-[calc(100%-54px)]"
+                }`}>
+                  <h3 className="text-3xl font-bold tracking-wider mb-2">{collection.name}</h3>
+                  <p className={`text-sm text-white/90 transition-opacity duration-300 ${
+                    expandedIndex === index ? "opacity-100" : "opacity-0"
+                  }`}>
+                    {collection.description}
+                  </p>
+                  <div className={`mt-3 inline-block px-3 py-1 rounded-full bg-white/10 text-white text-xs transition-opacity duration-300 ${
+                    expandedIndex === index ? "opacity-100" : "opacity-0"
+                  }`}>
+                    {collection.count}
                   </div>
-                </motion.div>
-
-                <div className="absolute inset-0 flex items-center justify-center group-hover:opacity-0 transition-opacity duration-300">
-                  <motion.div
-                    className="text-center text-white"
-                    initial={{ opacity: 0.8 }}
-                    whileHover={{ opacity: 1, scale: 1.05 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <h3 className="text-3xl font-bold tracking-wider mb-2">{collection.name}</h3>
-                    <p className="text-sm opacity-90">{collection.count}</p>
-                  </motion.div>
                 </div>
               </div>
             </motion.div>
@@ -232,9 +230,12 @@ export function CollectionStrip() {
         {collections.map((_, index) => (
           <button
             key={index}
-            onClick={() => scrollToCollection(index)}
+            onClick={() => {
+              setExpandedIndex(index)
+              scrollToCollection(index)
+            }}
             className={`w-3 h-3 rounded-full border-2 transition-all duration-300 hover:scale-110 ${
-              activeIndex === index
+              (typeof expandedIndex === 'number' ? expandedIndex : activeIndex) === index
                 ? "bg-white border-white shadow-lg"
                 : "bg-transparent border-white/40 hover:border-white/60"
             }`}

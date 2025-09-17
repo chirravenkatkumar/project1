@@ -37,7 +37,7 @@ export function Footer() {
   ]
 
   return (
-    <footer className="bg-white/[0.02] border-t border-white/[0.02]">
+    <footer className="bg-white border-t border-neutral-200">
       <div className="container-custom py-16 lg:py-20">
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 mb-12">
@@ -50,9 +50,9 @@ export function Footer() {
               viewport={{ once: true }}
             >
               <div className="mb-4">
-                <Image src="/labs-footer-logo.png" alt="LABS" width={480} height={192} className="h-24 w-auto" />
+                <Image src="/labs-footer-logo.png" alt="LABS" width={480} height={250} className="h-24 w-auto" />
               </div>
-              <p className="mb-6 leading-relaxed text-white">
+              <p className="mb-6 leading-relaxed text-neutral-700">
                 Architected in Belgium, built to last. We create timeless furniture pieces in solid oak, steel, and
                 linen for spaces that breathe.
               </p>
@@ -85,12 +85,12 @@ export function Footer() {
                   viewport={{ once: true }}
                 >
                   <h4 className="text-neutral-900 mb-4 text-2xl font-extralight">{category}</h4>
-                  <ul className="space-y-3 text-white leading-3 tracking-tighter">
+                  <ul className="space-y-3 text-neutral-700 leading-3 tracking-tighter">
                     {links.map((link) => (
                       <li key={link.name}>
                         <a
                           href={link.href}
-                          className="hover:text-neutral-900 transition-colors duration-200 group flex items-center text-white"
+                          className="hover:text-neutral-900 transition-colors duration-200 group flex items-center text-neutral-700"
                         >
                           {link.name}
                           <ArrowUpRight

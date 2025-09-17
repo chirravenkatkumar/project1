@@ -57,13 +57,15 @@ export default function RootLayout({
       <body className="font-sans bg-neutral-900 text-white overflow-x-hidden relative min-h-screen">
         <CustomCursor />
         <div
-          className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-80"
+          className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: "url(/purple-atmospheric-bg.jpeg)",
+            backgroundImage: "url(/26580.jpg)",
             backgroundAttachment: "fixed",
+            filter: "blur(2px)",
+            transform: "scale(1.02)",
           }}
         />
-        <div className="fixed inset-0 z-0 bg-black/40" />
+        <div className="fixed inset-0 z-0 bg-black/40 backdrop-blur-sm" />
         <div className="relative z-10">{children}</div>
       </body>
     </html>

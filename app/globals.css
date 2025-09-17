@@ -163,22 +163,19 @@
     scroll-behavior: smooth;
   }
 
-  /* Custom scrollbar */
+  /* Hide scrollbar completely */
   ::-webkit-scrollbar {
-    width: 6px;
+    display: none;
   }
 
-  ::-webkit-scrollbar-track {
-    background: transparent;
+  /* For Firefox */
+  html {
+    scrollbar-width: none;
   }
 
-  ::-webkit-scrollbar-thumb {
-    background: var(--color-neutral-400);
-    border-radius: 3px;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: var(--color-neutral-800);
+  /* For IE and Edge */
+  body {
+    -ms-overflow-style: none;
   }
 
   /* Focus management for accessibility */

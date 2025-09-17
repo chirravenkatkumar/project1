@@ -2,6 +2,7 @@
 
 import { motion, useScroll, useTransform } from "framer-motion"
 import { useRef } from "react"
+import Image from "next/image"
 import { Reveal } from "./reveal"
 
 export function HeroSection() {
@@ -41,31 +42,32 @@ export function HeroSection() {
 
   return (
     <section ref={containerRef} className="relative h-screen overflow-hidden rounded-b-[20px] bg-black">
-      {/* Video Background */}
+      {/* Image Background replacing video */}
       <div className="absolute inset-0 rounded-b-[20px] overflow-hidden">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover"
-        >
-          <source src="/0910.mp4" type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-black/30" />
+        <Image src="/26580.jpg" alt="Background" fill className="object-cover" priority />
+        <div className="absolute inset-0 bg-black/60 supports-[backdrop-filter]:bg-black/50 backdrop-blur-lg" />
       </div>
 
-      {/* Vertical Line on Left Side */}
-      <motion.div
-        className="absolute left-8 top-1/2 -translate-y-1/2 w-px h-32 bg-white/60 z-30"
-        initial={{ opacity: 0, scaleY: 0 }}
-        animate={{ opacity: 1, scaleY: 1 }}
-        transition={{ duration: 1, delay: 0.5, ease: [0.21, 0.47, 0.32, 0.98] }}
-      />
+      {/* Spline 3D Model Overlay */}
+      <motion.div 
+        className="absolute inset-0 z-20 pointer-events-none mix-blend-screen brightness-150 contrast-125"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.0, delay: 2.0, ease: "easeInOut" }}
+      >
+        <iframe
+          src="https://my.spline.design/cubeandballs-GvDkzk4LDCMY1wT8GpTB9Oga/"
+          title="AIVS Labs 3D"
+          frameBorder={0}
+          className="w-full h-full"
+        />
+      </motion.div>
+
+      {/* Vertical line removed */}
 
       {/* Content */}
       <motion.div
-        className="relative z-10 h-full flex items-center justify-center"
+        className="relative z-30 h-full flex items-center justify-center"
         style={{
           y: contentY,
           opacity: contentOpacity,
@@ -77,18 +79,6 @@ export function HeroSection() {
         }}
       >
         <div className="container-custom text-center text-white">
-          <Reveal>
-            <h1 className="text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-bold leading-none tracking-tight mb-6">
-              <span className="whitespace-nowrap inline-block">
-                <AnimatedText text="Craft ideas for" delay={0.5} />
-              </span>
-              <br />
-              <span className="italic font-light whitespace-nowrap text-3xl sm:text-4xl md:text-7xl lg:text-8xl xl:text-9xl">
-                <AnimatedText text="spaces that breathe." delay={1.1} />
-              </span>
-            </h1>
-          </Reveal>
-
           <Reveal delay={0.2}>
             <motion.p
               className="text-lg md:text-xl text-white/90 mb-12 leading-relaxed"
@@ -102,9 +92,21 @@ export function HeroSection() {
         </div>
       </motion.div>
 
+      {/* Contact Us Button - Bottom Right */}
+      <motion.div
+        className="absolute bottom-6 right-6 z-30"
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.6, delay: 1.0, ease: [0.21, 0.47, 0.32, 0.98] }}
+      >
+        <button className="bg-white text-black px-6 py-3 rounded-full font-semibold text-sm hover:bg-white/90 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+          Contact Us Now
+        </button>
+      </motion.div>
+
       {/* Info Strip - Now without BlurPanel */}
       <motion.div
-        className="absolute bottom-0 left-0 right-0 z-20 flex justify-center"
+        className="absolute bottom-24 md:bottom-0 left-0 right-0 z-20 flex justify-center"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 1.2, ease: [0.21, 0.47, 0.32, 0.98] }}
@@ -113,7 +115,7 @@ export function HeroSection() {
           <p className="text-sm leading-relaxed">
             We are AIVS Labs — an engineering collective crafting AI solutions and transformative experiences.
             <br />
-            Rooted in Bangalore, India. Innovating since 2023."
+            Rooted in Hyderabad, India. Innovating since 2025."
           </p>
         </div>
       </motion.div>

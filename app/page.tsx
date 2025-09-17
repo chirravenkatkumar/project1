@@ -13,10 +13,14 @@ export default function HomePage() {
       <Header />
       <HeroSection />
       <FeaturedProducts />
-      <CollectionStrip />
-      <MaterialsSection />
-      <NewsletterSection />
-      <Footer />
+      <div className="bg-white">
+        <div className="bg-black rounded-b-[40px] overflow-hidden">
+          <CollectionStrip />
+          <MaterialsSection />
+          <NewsletterSection />
+        </div>
+        <Footer />
+      </div>
     </main>
   )
 }

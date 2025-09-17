@@ -58,17 +58,21 @@ export default function CustomCursor() {
         top: mousePosition.y,
       }}
     >
-      <div
-        className={`w-full h-full rounded-full transition-all duration-300 ease-out ${
-          isHovering ? "bg-white/10 backdrop-blur-sm shadow-2xl" : "bg-white/60"
+      <svg
+        viewBox="0 0 24 24"
+        className={`w-full h-full transition-all duration-300 ease-out ${
+          isHovering ? "opacity-100" : "opacity-80"
         }`}
         style={{
-          backdropFilter: isHovering ? "blur(2px) brightness(1.5) contrast(1.3) saturate(1.2)" : "none",
-          background: isHovering
-            ? `radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 50%, transparent 100%)`
-            : undefined,
+          filter: isHovering ? "drop-shadow(0 8px 20px rgba(255,255,255,0.35))" : "drop-shadow(0 2px 6px rgba(255,255,255,0.25))",
         }}
-      />
+        aria-hidden="true"
+      >
+        <path
+          d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"
+          fill="#ffffff"
+        />
+      </svg>
     </div>
   )
 }
