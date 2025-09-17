@@ -116,7 +116,7 @@ export function MaterialsSection() {
                   
                   {/* Main Heading */}
                   <motion.h2
-                    className="font-bold mb-6 text-6xl lg:text-7xl"
+                    className="font-bold mb-6 text-4xl sm:text-5xl md:text-6xl lg:text-7xl"
                     style={{
                       textShadow: '0 4px 8px rgba(0,0,0,0.3)'
                     }}
@@ -164,8 +164,10 @@ export function MaterialsSection() {
                 <motion.button
                   key={material.id}
                   className={cn(
-                    "px-6 py-3 rounded-full font-medium transition-all duration-300 backdrop-blur-md bg-white text-black hover:bg-neutral-100 active:bg-neutral-200/80",
-                    activeMaterial === material.id ? "shadow-md" : "opacity-90"
+                    "px-6 py-3 rounded-full font-medium transition-all duration-300 backdrop-blur-lg border border-white/20",
+                    activeMaterial === material.id 
+                      ? "bg-white/20 text-white shadow-lg shadow-white/10" 
+                      : "bg-white/10 text-white/90 hover:bg-white/15 hover:text-white"
                   )}
                   onClick={() => setActiveMaterial(material.id)}
                   whileHover={{ scale: 1.05 }}

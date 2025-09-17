@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"
 export default function CustomCursor() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [isHovering, setIsHovering] = useState(false)
+  const [isOverFooter, setIsOverFooter] = useState(false)
 
   useEffect(() => {
     const updateMousePosition = (e: MouseEvent) => {
@@ -16,12 +17,24 @@ export default function CustomCursor() {
       if (target.tagName.toLowerCase() === "div") {
         setIsHovering(true)
       }
+      
+      // Check if hovering over footer
+      const footer = target.closest('footer')
+      if (footer) {
+        setIsOverFooter(true)
+      }
     }
 
     const handleMouseLeave = (e: Event) => {
       const target = e.target as HTMLElement
       if (target.tagName.toLowerCase() === "div") {
         setIsHovering(false)
+      }
+      
+      // Check if leaving footer
+      const footer = target.closest('footer')
+      if (footer) {
+        setIsOverFooter(false)
       }
     }
 
@@ -64,13 +77,15 @@ export default function CustomCursor() {
           isHovering ? "opacity-100" : "opacity-80"
         }`}
         style={{
-          filter: isHovering ? "drop-shadow(0 8px 20px rgba(255,255,255,0.35))" : "drop-shadow(0 2px 6px rgba(255,255,255,0.25))",
+          filter: isHovering 
+            ? `drop-shadow(0 8px 20px ${isOverFooter ? 'rgba(0,0,0,0.35)' : 'rgba(255,255,255,0.35)'})` 
+            : `drop-shadow(0 2px 6px ${isOverFooter ? 'rgba(0,0,0,0.25)' : 'rgba(255,255,255,0.25)'})`,
         }}
         aria-hidden="true"
       >
         <path
           d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"
-          fill="#ffffff"
+          fill={isOverFooter ? "#000000" : "#ffffff"}
         />
       </svg>
     </div>

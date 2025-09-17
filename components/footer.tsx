@@ -1,48 +1,42 @@
 "use client"
 import { motion } from "framer-motion"
-import { Instagram, Twitter, Facebook, ArrowUpRight } from "lucide-react"
+import { Instagram, Linkedin, ArrowUpRight } from "lucide-react"
 import Image from "next/image" // Added Image import for logo
+
+// Custom X Logo Component
+const XIcon = ({ size = 18 }: { size?: number }) => (
+  <svg 
+    xmlns="http://www.w3.org/2000/svg" 
+    viewBox="0 0 448 512" 
+    width={size} 
+    height={size}
+    fill="currentColor"
+  >
+    <path d="M357.2 48L427.8 48 273.6 224.2 455 464 313 464 201.7 318.6 74.5 464 3.8 464 168.7 275.5-5.2 48 140.4 48 240.9 180.9 357.2 48zM332.4 421.8l39.1 0-252.4-333.8-42 0 255.3 333.8z"/>
+  </svg>
+)
 
 export function Footer() {
   const currentYear = new Date().getFullYear()
 
-  const footerLinks = {
-    Shop: [
-      { name: "New Arrivals", href: "#" },
-      { name: "Chairs", href: "#" },
-      { name: "Tables", href: "#" },
-      { name: "Storage", href: "#" },
-      { name: "Lighting", href: "#" },
-    ],
-    Company: [
-      { name: "About", href: "#" },
-      { name: "Craftsmanship", href: "#" },
-      { name: "Sustainability", href: "#" },
-      { name: "Careers", href: "#" },
-      { name: "Press", href: "#" },
-    ],
-    Support: [
-      { name: "Contact", href: "#" },
-      { name: "Size Guide", href: "#" },
-      { name: "Care Instructions", href: "#" },
-      { name: "Shipping", href: "#" },
-      { name: "Returns", href: "#" },
-    ],
-  }
+  const footerLinks = [
+    { name: "Privacy Policy", href: "#" },
+    { name: "Terms of Service", href: "#" },
+  ]
 
   const socialLinks = [
-    { name: "Instagram", icon: Instagram, href: "#" },
-    { name: "Twitter", icon: Twitter, href: "#" },
-    { name: "Facebook", icon: Facebook, href: "#" },
+    { name: "Instagram", icon: Instagram, href: "https://www.instagram.com/aivslabs/" },
+    { name: "X", icon: XIcon, href: "https://x.com/aivslabs" },
+    { name: "LinkedIn", icon: Linkedin, href: "https://www.linkedin.com/company/aivs-labs/" },
   ]
 
   return (
     <footer className="bg-white border-t border-neutral-200">
       <div className="container-custom py-16 lg:py-20">
         {/* Main Footer Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 mb-12">
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8 mb-12">
           {/* Brand Section */}
-          <div className="lg:col-span-4">
+          <div className="flex-1">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -52,9 +46,8 @@ export function Footer() {
               <div className="mb-4">
                 <Image src="/labs-footer-logo.png" alt="LABS" width={480} height={250} className="h-24 w-auto" />
               </div>
-              <p className="mb-6 leading-relaxed text-neutral-700">
-                Architected in Belgium, built to last. We create timeless furniture pieces in solid oak, steel, and
-                linen for spaces that breathe.
+              <p className="mb-6 leading-relaxed text-neutral-700 max-w-md">
+              AIVS Labs delivers Gen AI solutions, 3D landing pages, UI/UX, full-stack websites, and AI-powered marketing with videos, posters & content.
               </p>
               <div className="flex space-x-4">
                 {socialLinks.map((social) => (
@@ -73,37 +66,30 @@ export function Footer() {
             </motion.div>
           </div>
 
-          {/* Links Sections */}
-          <div className="lg:col-span-8">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 lg:gap-12">
-              {Object.entries(footerLinks).map(([category, links], index) => (
-                <motion.div
-                  key={category}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                >
-                  <h4 className="text-neutral-900 mb-4 text-2xl font-extralight">{category}</h4>
-                  <ul className="space-y-3 text-neutral-700 leading-3 tracking-tighter">
-                    {links.map((link) => (
-                      <li key={link.name}>
-                        <a
-                          href={link.href}
-                          className="hover:text-neutral-900 transition-colors duration-200 group flex items-center text-neutral-700"
-                        >
-                          {link.name}
-                          <ArrowUpRight
-                            size={14}
-                            className="ml-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                          />
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </motion.div>
-              ))}
-            </div>
+          {/* Links Section - Right Side */}
+          <div className="flex-shrink-0">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              viewport={{ once: true }}
+            >
+              <div className="flex flex-row gap-6 text-right">
+                {footerLinks.map((link) => (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    className="hover:text-neutral-900 transition-colors duration-200 group flex items-center justify-end text-neutral-700"
+                  >
+                    {link.name}
+                    <ArrowUpRight
+                      size={14}
+                      className="ml-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                    />
+                  </a>
+                ))}
+              </div>
+            </motion.div>
           </div>
         </div>
 
@@ -116,17 +102,8 @@ export function Footer() {
           viewport={{ once: true }}
         >
           <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-6 text-sm text-neutral-500 text-center">
-            <p>&copy; {currentYear} KATACHI Studio. All rights reserved.</p>
+            <p>&copy; {currentYear} AIVS Labs. All rights reserved.</p>
             <div className="flex space-x-6">
-              <a href="#" className="hover:text-neutral-700 transition-colors">
-                Privacy Policy
-              </a>
-              <a href="#" className="hover:text-neutral-700 transition-colors">
-                Terms of Service
-              </a>
-              <a href="#" className="hover:text-neutral-700 transition-colors">
-                Cookies
-              </a>
             </div>
           </div>
         </motion.div>
