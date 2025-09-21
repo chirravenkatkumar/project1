@@ -2,8 +2,8 @@
 const nextConfig = {
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
-  images: { unoptimized: true }, // important for static export
-  output: 'export', // enables static export
+  images: { unoptimized: true },
+  // Removed static export to enable API routes
 }
 
 export default nextConfig
