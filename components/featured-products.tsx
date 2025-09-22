@@ -43,10 +43,8 @@ export function FeaturedProducts() {
   const [selectedProduct, setSelectedProduct] = useState<any>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const handleQuickLook = (product: any) => {
-    setSelectedProduct(product)
-    setIsModalOpen(true)
-  }
+  // Cards are static; disable quick look by not passing handler
+  const handleQuickLook = undefined as any
 
   const closeModal = () => {
     setIsModalOpen(false)
@@ -75,16 +73,33 @@ export function FeaturedProducts() {
         <Reveal>
           <div className="text-center mb-20">
             <h2 className="text-4xl mb-6 lg:text-6xl text-white">
-              Trusted by <span className="italic font-light text-white">Industry Leaders</span>
+              <span className="italic font-semibold" style={{ fontFamily: "'Ivy Presto', serif" }}>Trusted by</span> <span className="italic font-light text-white" style={{ fontFamily: "'Ivy Presto', serif" }}>Industry Leaders</span>
             </h2>
             <p className="text-lg text-gray-300 max-w-2xl mx-auto mb-16">
               We collaborate with the world's most innovative companies to create exceptional design experiences.
             </p>
 
-            {/* Auto-scrolling logos */}
-            <div className="relative overflow-hidden">
+            {/* Logos: vertical list on mobile, horizontal marquee on md+ */}
+            {/* Mobile (vertical) */}
+            <div className="md:hidden flex flex-col items-center gap-6">
+              {companyLogos.map((company, index) => (
+                <div key={`m-${index}`} className="h-16 w-32 flex items-center justify-center">
+                  <img
+                    src={company.logo || "/placeholder.svg"}
+                    alt={company.name}
+                    className="max-h-12 max-w-full object-contain filter brightness-0 invert opacity-50"
+                    onError={(e) => {
+                      console.log(`Failed to load logo for ${company.name}: ${company.logo}`)
+                      e.currentTarget.src = "/placeholder.svg"
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
+
+            {/* Desktop (horizontal marquee) */}
+            <div className="hidden md:block relative overflow-hidden">
               <div className="flex animate-scroll">
-                {/* First set of logos */}
                 {companyLogos.map((company, index) => (
                   <div key={`first-${index}`} className="flex-shrink-0 mx-8 flex items-center justify-center h-16 w-32">
                     <img
@@ -95,18 +110,11 @@ export function FeaturedProducts() {
                         console.log(`Failed to load logo for ${company.name}: ${company.logo}`)
                         e.currentTarget.src = "/placeholder.svg"
                       }}
-                      onLoad={() => {
-                        console.log(`Successfully loaded logo for ${company.name}: ${company.logo}`)
-                      }}
                     />
                   </div>
                 ))}
-                {/* Duplicate set for seamless loop */}
                 {companyLogos.map((company, index) => (
-                  <div
-                    key={`second-${index}`}
-                    className="flex-shrink-0 mx-8 flex items-center justify-center h-16 w-32"
-                  >
+                  <div key={`second-${index}`} className="flex-shrink-0 mx-8 flex items-center justify-center h-16 w-32">
                     <img
                       src={company.logo || "/placeholder.svg"}
                       alt={company.name}
@@ -114,9 +122,6 @@ export function FeaturedProducts() {
                       onError={(e) => {
                         console.log(`Failed to load logo for ${company.name}: ${company.logo}`)
                         e.currentTarget.src = "/placeholder.svg"
-                      }}
-                      onLoad={() => {
-                        console.log(`Successfully loaded logo for ${company.name}: ${company.logo}`)
                       }}
                     />
                   </div>
@@ -130,8 +135,8 @@ export function FeaturedProducts() {
           <Reveal>
             <div className="text-left mb-10">
               <h2 className="mb-4">
-                <span className="text-5xl lg:text-7xl font-extrabold text-black tracking-tight">Our</span>{" "}
-                <span className="text-4xl lg:text-6xl italic font-light text-neutral-700">Services</span>
+                <span className="text-5xl lg:text-7xl font-extrabold text-black tracking-tight italic" style={{ fontFamily: "'Ivy Presto', serif" }}>Our</span>{" "}
+                <span className="text-4xl lg:text-6xl italic font-light text-neutral-700" style={{ fontFamily: "'Ivy Presto', serif" }}>Services</span>
               </h2>
               <p className="text-lg text-neutral-600 max-w-2xl">
                 Discover our comprehensive range of services, each designed to elevate your business with cutting-edge technology and innovative solutions.
@@ -169,7 +174,7 @@ export function FeaturedProducts() {
                 }}
               >
                 <Reveal delay={index * 0.1}>
-                  <ProductCard product={product} onQuickLook={handleQuickLook} />
+                  <ProductCard product={product} />
                 </Reveal>
               </motion.div>
             ))}

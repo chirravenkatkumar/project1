@@ -19,63 +19,42 @@ const collections = [
     name: "ARUN ICE CREAM Ad Video",
     image: "/arunad.jpg",
     count: "AIVS LABS",
-    description: "Adaptable Icecreams that transforms with your lifestyle and space",
+    description: "Delighting taste buds, crafting moments, AI powered campaigns for Arun Ice Cream.",
   },
   {
     id: "cloud-collection",
-    name: "CLOUD COLLECTION",
-    image: "/cloud-white-sofa.png",
-    count: "4 pieces",
-    description: "Soft, dreamy pieces that float like clouds in your living space",
+    name: "Palmonas Jewellery Ad Video",
+    image: "/jewead.png",
+    count: "AIVS LABS",
+    description: "Turning every gem into a story — premium jewelry campaigns in moments.",
   },
   {
     id: "artistic-pieces",
-    name: "ARTISTIC PIECES",
-    image: "/distressed-artistic-chair.png",
-    count: "5 pieces",
-    description: "Where art meets function in bold, statement-making designs",
+    name: "Mama Earth Ad Video",
+    image: "/mama.jpg",
+    count: "AIVS LABS",
+    description: "From nature to nurture,AI-powered campaigns for Mama Earth.",
   },
   {
     id: "contemporary",
-    name: "CONTEMPORARY",
-    image: "/green-modular-loveseat.png",
-    count: "7 pieces",
-    description: "Clean aesthetics with a modern twist for today's living",
+    name: "Website Design For Brand",
+    image: "/web.jpg",
+    count: "AIVS LABS",
+    description: "From idea to impact — websites that elevate your brand instantly.",
   },
   {
     id: "textural-craft",
-    name: "TEXTURAL CRAFT",
-    image: "/braided-rope-loveseat.png",
-    count: "3 pieces",
-    description: "Handcrafted textures that tell stories of artisan mastery",
+    name: "Snitch Fashion Ad Video",
+    image: "/snitch.jpg",
+    count: "AIVS LABS",
+    description: "From racks to runway — Snitch campaigns created in moments.",
   },
   {
     id: "maximalist-art",
-    name: "MAXIMALIST ART",
-    image: "/colorful-patchwork-sofa.png",
-    count: "4 pieces",
-    description: "Bold colors and patterns for those who dare to be different",
-  },
-  {
-    id: "scandinavian-comfort",
-    name: "SCANDINAVIAN COMFORT",
-    image: "/minimalist-boucle-loveseat.png",
-    count: "6 pieces",
-    description: "Nordic simplicity meets cozy comfort in timeless designs",
-  },
-  {
-    id: "abstract-forms",
-    name: "ABSTRACT FORMS",
-    image: "/abstract-artistic-sofa.png",
-    count: "5 pieces",
-    description: "Sculptural furniture that challenges conventional design boundaries",
-  },
-  {
-    id: "luxury-textures",
-    name: "LUXURY TEXTURES",
-    image: "/textured-cream-loveseat.png",
-    count: "8 pieces",
-    description: "Premium materials and rich textures for sophisticated interiors",
+    name: "Motorola Ad Video",
+    image: "/motoad.jpg",
+    count: "AIVS LABS",
+    description: "From concept to premium showcase — Motorola campaigns in moments.",
   },
 ]
 
@@ -139,7 +118,9 @@ export function CollectionStrip() {
       <div className="mb-12">
         <Reveal>
           <div className="container-custom text-center">
-            <h2 className="text-white mb-4 text-6xl font-normal">What We Deliver Previously</h2>
+            <h2 className="text-white mb-4 text-6xl font-normal italic" style={{ fontFamily: "'Ivy Presto', serif" }}>
+              What We <span className="font-extrabold">Deliver</span> Previously
+            </h2>
             <p className="text-lg text-neutral-300 max-w-2xl mx-auto">
               Explore our expertize works, where every project reflects innovation, precision, and our unique design philosophy.
             </p>
@@ -208,7 +189,7 @@ export function CollectionStrip() {
                 <div className={`absolute left-0 right-0 bottom-0 z-10 px-6 pb-3 pt-4 text-white transition-all duration-300 ${
                   expandedIndex === index ? "translate-y-0" : "translate-y-[calc(100%-54px)]"
                 }`}>
-                  <h3 className="text-3xl font-bold tracking-wider mb-2">{collection.name}</h3>
+                  <h3 className="text-3xl font-bold tracking-wider mb-2 italic" style={{ fontFamily: "'Ivy Presto', serif" }}>{collection.name}</h3>
                   <p className={`text-sm text-white/90 transition-opacity duration-300 ${
                     expandedIndex === index ? "opacity-100" : "opacity-0"
                   }`}>

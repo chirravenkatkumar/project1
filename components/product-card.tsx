@@ -12,19 +12,20 @@ interface ProductCardProps {
     badge?: "New" | "Back in stock" | "Limited"
     description: string
   }
-  onQuickLook: (product: any) => void
+  onQuickLook?: (product: any) => void
 }
 
 export function ProductCard({ product, onQuickLook }: ProductCardProps) {
+  const isClickable = Boolean(onQuickLook)
   return (
     <motion.div
-      className="group relative bg-white overflow-hidden cursor-pointer"
+      className={`group relative bg-white overflow-hidden ${isClickable ? "cursor-pointer" : "cursor-default"}`}
       style={{
         borderRadius: "24px",
         boxShadow: "rgba(0, 0, 0, 0.1) 0px 10px 50px",
       }}
       layout
-      onClick={() => onQuickLook(product)}
+      onClick={isClickable ? () => onQuickLook!(product) : undefined}
     >
       {/* Badge */}
       {product.badge && (

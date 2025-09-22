@@ -3,7 +3,6 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import Script from "next/script"
 import "./globals.css"
-import CustomCursor from "@/components/custom-cursor"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -23,7 +22,7 @@ export const metadata: Metadata = {
     title: "Craft ideas for spaces that breathe. | Katachi",
     description: "Architected in Belgium, built to last—timeless pieces.",
     type: "website",
-    url: "https://katachi.example/",
+    url: "https://aivslabs.com/",
     images: [
       {
         url: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/opengraph-katachi.jpg-7vz2r3hxZA6woukGOmH115Fg7Piyjs.jpeg",
@@ -69,9 +68,9 @@ export default function RootLayout({
             gtag('config', 'G-ZJNQPR3PWR');
           `}
         </Script>
+        <link rel="icon" href="/faviconlogo.jpg" />
       </head>
       <body className="font-sans bg-neutral-900 text-white overflow-x-hidden relative min-h-screen">
-        <CustomCursor />
         <div
           className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat"
           style={{

@@ -20,8 +20,8 @@ export function Footer() {
   const currentYear = new Date().getFullYear()
 
   const footerLinks = [
-    { name: "Privacy Policy", href: "#" },
-    { name: "Terms of Service", href: "#" },
+    { name: "Privacy Policy", href: "/privacy" },
+    { name: "Terms of Service", href: "/terms" },
   ]
 
   const socialLinks = [

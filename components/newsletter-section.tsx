@@ -76,10 +76,10 @@ export function NewsletterSection() {
             <BlurPanel className="p-8 lg:p-12 bg-transparent backdrop-blur-0">
               <div className="text-center mb-8">
                 <h2 className="text-3xl lg:text-4xl font-bold text-black mb-4" style={{ color: "#000000" }}>
-                  <span style={{ color: "white" }}>
+                  <span className="italic" style={{ color: "white", fontFamily: "'Ivy Presto', serif" }}>
                     <AnimatedText text="Let's work " delay={0.2} />
                   </span>
-                  <span className="italic font-light text-black" style={{ color: "white" }}>
+                  <span className="italic font-light text-black" style={{ color: "white", fontFamily: "'Ivy Presto', serif" }}>
                     <AnimatedText text="together." delay={0.5} />
                   </span>
                 </h2>
@@ -204,10 +204,9 @@ export function NewsletterSection() {
 
               <p className="text-xs text-neutral-500 text-center mt-6">
                 Your information is secure and will only be used to respond to your inquiry. Read our{" "}
-                <a href="#" className="underline hover:text-neutral-700 transition-colors">
-                  Privacy Policy
-                </a>
-                .
+                <a href="/privacy" className="underline hover:text-neutral-700 transition-colors">Privacy Policy</a>
+                {" "}and our{" "}
+                <a href="/terms" className="underline hover:text-neutral-700 transition-colors">Terms of Service</a>.
               </p>
             </BlurPanel>
           </div>
