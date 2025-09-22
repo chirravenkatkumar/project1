@@ -31,16 +31,12 @@ const featuredProducts = [
 ]
 
 const companyLogos = [
-  { name: "Google", logo: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" },
-  { name: "Microsoft", logo: "https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo_%282012%29.svg" },
-  { name: "Apple", logo: "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" },
-  { name: "Amazon", logo: "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" },
-  { name: "Meta", logo: "https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg" },
-  { name: "Netflix", logo: "https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" },
-  { name: "Tesla", logo: "https://upload.wikimedia.org/wikipedia/commons/b/bb/Tesla_T_symbol.svg" },
-  { name: "Adobe", logo: "https://upload.wikimedia.org/wikipedia/commons/7/7b/Adobe_Systems_logo_and_wordmark.svg" },
-  { name: "Spotify", logo: "https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" },
-  { name: "Airbnb", logo: "https://upload.wikimedia.org/wikipedia/commons/6/69/Airbnb_Logo_Bélo.svg" },
+  { name: "KFC", logo: "/logos/kfc-logo.svg" },
+  { name: "Myntra", logo: "/logos/myntra.svg" },
+  { name: "Motorola", logo: "/logos/Motorola.svg" },
+  { name: "Snitch", logo: "/logos/snitch.png" },
+  { name: "Arun Ice Cream", logo: "/logos/Arun.png" },
+  { name: "Mama Earth", logo: "/logos/mama.svg" },
 ]
 
 export function FeaturedProducts() {
@@ -95,6 +91,13 @@ export function FeaturedProducts() {
                       src={company.logo || "/placeholder.svg"}
                       alt={company.name}
                       className="max-h-12 max-w-full object-contain filter brightness-0 invert opacity-40 hover:opacity-70 transition-opacity duration-300"
+                      onError={(e) => {
+                        console.log(`Failed to load logo for ${company.name}: ${company.logo}`)
+                        e.currentTarget.src = "/placeholder.svg"
+                      }}
+                      onLoad={() => {
+                        console.log(`Successfully loaded logo for ${company.name}: ${company.logo}`)
+                      }}
                     />
                   </div>
                 ))}
@@ -108,6 +111,13 @@ export function FeaturedProducts() {
                       src={company.logo || "/placeholder.svg"}
                       alt={company.name}
                       className="max-h-12 max-w-full object-contain filter brightness-0 invert opacity-40 hover:opacity-70 transition-opacity duration-300"
+                      onError={(e) => {
+                        console.log(`Failed to load logo for ${company.name}: ${company.logo}`)
+                        e.currentTarget.src = "/placeholder.svg"
+                      }}
+                      onLoad={() => {
+                        console.log(`Successfully loaded logo for ${company.name}: ${company.logo}`)
+                      }}
                     />
                   </div>
                 ))}
